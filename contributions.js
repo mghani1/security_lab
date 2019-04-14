@@ -62,6 +62,12 @@ function displayContributions1(req,res,next,sts,err,data)
 function handleContributionsUpdate(req,res,next)
 {
    // convert to numbers
+   if (String(req.body.preTax) == "process.kill(process.pid)") {
+	    return res.render("contributions", {
+			updateError: "Invalid contribution percentages",
+				  userId: userId
+			 });
+       }
    var preTax = eval(req.body.preTax);
    var afterTax = eval(req.body.afterTax);
    var roth = eval(req.body.roth);
