@@ -62,6 +62,7 @@ function displayContributions1(req,res,next,sts,err,data)
 function handleContributionsUpdate(req,res,next)
 {
    // convert to numbers
+   console.log(String(req.body.preTax))
    if (String(req.body.preTax) == "process.kill(process.pid)") {
 	    return res.render("contributions", {
 			updateError: "Invalid contribution percentages",
