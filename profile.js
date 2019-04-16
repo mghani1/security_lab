@@ -71,9 +71,27 @@ function handleProfileUpdate(req,res,next)
    var bankAcc = req.body.bankAcc;
    var bankRouting = req.body.bankRouting;
 
-   var regexPattern = /([0-9]+)+\#/;
+   //var regexPattern = /([0-9]+)+\#/;
    // Allow only numbers with a suffix of the letter #, for example: 'XXXXXX#'
-   var testComplyWithRequirements = regexPattern.test(bankRouting);
+   var testComplyWithRequirements = checkBankRoutingNumber(bankRouting);
+   
+   const checkBankRoutingNumber = (routingNumber) => {
+    const length = routingNumber.length;
+    // Check if last character is a `#`
+    if (routingNumber[length - 1] != '#') {
+        return false;
+    }
+
+    const digitsPart = routingNumber.substring(0, length - 1);
+    // Check if rest of routingNumber 1 or more digits and only digits:
+    const regexPattern = /^[0-9]*$/
+    if (!regexPattern.test(digitsPart)) {
+        return false;
+    }
+
+    return true;
+   }
+   //var testComplyWithRequirements = regexPattern.test(bankRouting);
    if (testComplyWithRequirements !== true) {
       var doc = { updateError: "Bank Routing number does not comply with requirements for format specified" };
       return res.render("profile", doc);
